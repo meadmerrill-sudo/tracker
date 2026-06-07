@@ -220,6 +220,11 @@
   <button class="nav-btn" id="nav-workout" onclick="setScreen('workout')">💪</button>
   <button class="nav-btn" id="nav-nutrition" onclick="setScreen('nutrition')">🥗</button>
   <button class="nav-btn" id="nav-supplements" onclick="setScreen('supplements')">💊</button>
+  <button class="nav-btn" id="nav-recipes" onclick="setScreen('recipes')">👨‍🍳</button>
+  <button class="nav-btn" id="nav-portions" onclick="setScreen('portions')">⚖️</button>
+  <button class="nav-btn" id="nav-sleep" onclick="setScreen('sleep')">🌙</button>
+  <button class="nav-btn" id="nav-belly" onclick="setScreen('belly')">🔥</button>
+  <button class="nav-btn" id="nav-travel" onclick="setScreen('travel')">✈️</button>
   <button class="nav-btn" id="nav-shopping" onclick="setScreen('shopping')">🛒</button>
   <button class="nav-btn" id="nav-progress" onclick="setScreen('progress')">📈</button>
 </div>
@@ -593,6 +598,11 @@ function renderContent() {
     case "workout":   el.innerHTML = renderWorkout(); break;
     case "nutrition": el.innerHTML = renderNutrition(); break;
     case "supplements": el.innerHTML = renderSupplements(); break;
+    case "recipes":   el.innerHTML = renderRecipes(); break;
+    case "portions":  el.innerHTML = renderPortions(); break;
+    case "sleep":     el.innerHTML = renderSleep(); break;
+    case "belly":     el.innerHTML = renderBellyFat(); break;
+    case "travel":    el.innerHTML = renderTravel(); break;
     case "shopping":  el.innerHTML = renderShopping(); break;
     case "progress":  el.innerHTML = renderProgress(); break;
   }
@@ -929,6 +939,580 @@ function renderProgress() {
         <div class="target-row">
           <span class="target-label">${label}</span>
           <span class="target-val" style="color:${col}">${val}</span>
+        </div>`).join("")}
+    </div>
+  `;
+}
+
+// ─── RECIPES DATA ─────────────────────────────────────────────────────────────
+const RECIPES = [
+  {
+    name: "Teriyaki Chicken Thighs", tag: "Main Protein — Use all week",
+    emoji: "🍗", time: "45 min (+ marinate)", servings: "6–7 meals", color: "#F0C040",
+    macros: { cals: 320, protein: 42, carbs: 6, fat: 12 },
+    ingredients: [
+      "3 lbs boneless skinless chicken thighs (Costco)",
+      "⅓ cup Kikkoman Less Sodium Teriyaki sauce (Costco)",
+      "1 tbsp sesame oil",
+      "2 tsp garlic powder",
+      "1 tsp ginger powder",
+      "1 tsp black pepper",
+      "Optional: sesame seeds, sliced green onion",
+    ],
+    steps: [
+      "Pat chicken thighs completely dry with paper towels — essential for caramelization.",
+      "Mix teriyaki sauce, sesame oil, garlic powder, ginger, and black pepper in a bowl.",
+      "Add chicken thighs, toss to coat. Marinate 30 min minimum — overnight is best.",
+      "Preheat oven to 425°F. Arrange on foil-lined sheet pan in a single layer.",
+      "Bake 25–28 min until internal temp hits 165°F and edges are caramelized.",
+      "Optional: broil last 2–3 min for sticky glaze — watch closely.",
+      "Rest 5 min, portion into containers (6 oz per serving). Add sesame seeds if using.",
+      "Refrigerates up to 5 days. Pairs perfectly with jasmine rice + Tattooed Chef veggies.",
+    ],
+  },
+  {
+    name: "Tattooed Chef Sheet Pan Veggies", tag: "Lunch + Dinner Sides",
+    emoji: "🥦", time: "25 min", servings: "Per serving on bag", color: "#3EC97A",
+    macros: { cals: 130, protein: 5, carbs: 18, fat: 5 },
+    ingredients: [
+      "1 bag Tattooed Chef Sheet Pan Veggies (Walmart or Costco)",
+      "1 tbsp olive oil (optional)",
+      "Salt, pepper, garlic powder to taste",
+      "Optional: squeeze of lemon after cooking",
+    ],
+    steps: [
+      "Preheat oven to 425°F (or per packet instructions).",
+      "Spread bag contents in a single layer — don't crowd or they steam instead of roast.",
+      "Drizzle optional olive oil and season to taste.",
+      "Roast 20–22 min, flipping halfway through.",
+      "Serve alongside batch protein and rice.",
+      "Batch tip: cook 2–3 bags at once on Sunday for the whole week.",
+    ],
+  },
+  {
+    name: "Bulk Jasmine Rice", tag: "Carb Base — All week",
+    emoji: "🍚", time: "20 min", servings: "8–10 portions", color: "#F0C040",
+    macros: { cals: 210, protein: 4, carbs: 45, fat: 0 },
+    ingredients: [
+      "4 cups jasmine rice (Costco)",
+      "5 cups water",
+      "1 tsp salt",
+      "1 tbsp butter or olive oil (optional)",
+    ],
+    steps: [
+      "Rinse rice in cold water until water runs clear — removes excess starch.",
+      "Combine rice, water, salt, and optional butter in a large pot.",
+      "Bring to a boil, then reduce to low, cover tightly.",
+      "Cook 15 min — do not lift the lid.",
+      "Remove from heat, let steam 5 min with lid still on.",
+      "Fluff with fork and portion into containers (1 cup cooked per meal).",
+      "Refrigerate up to 5 days. Freezes perfectly for up to 3 months.",
+    ],
+  },
+  {
+    name: "Ground Beef Power Bowl", tag: "Lunch swap — Tue/Thu",
+    emoji: "🥩", time: "20 min", servings: "4 meals", color: "#E04A6A",
+    macros: { cals: 520, protein: 48, carbs: 40, fat: 18 },
+    ingredients: [
+      "2 lbs 93% lean ground beef (Costco)",
+      "1 packet taco seasoning or cumin + garlic powder + chili powder",
+      "1 can black beans, drained",
+      "2 cups jasmine rice (batch cooked)",
+      "Tattooed Chef Sheet Pan Veggies (cooked)",
+      "Salsa for topping",
+    ],
+    steps: [
+      "Brown ground beef in a large skillet over medium-high, breaking into crumbles.",
+      "Drain excess fat if needed (93% lean won't need much).",
+      "Add seasoning and black beans. Cook 2 more minutes.",
+      "Portion into 4 containers: 1 cup rice, beef mixture, and veggies.",
+      "Top with salsa before eating. Add hot sauce if desired.",
+      "Refrigerates up to 4 days. Highest protein meal-prep option.",
+    ],
+  },
+  {
+    name: "Casein Night Recovery Shake", tag: "Before bed every night",
+    emoji: "🌙", time: "2 min", servings: "1", color: "#4A8FD4",
+    macros: { cals: 220, protein: 30, carbs: 8, fat: 8 },
+    ingredients: [
+      "1 scoop casein protein powder (vanilla or chocolate)",
+      "8–10 oz cold Fairlife 2% filtered milk",
+      "10 raw walnuts (on the side)",
+      "Ice (optional — makes it thicker)",
+    ],
+    steps: [
+      "Add casein and Fairlife 2% to shaker bottle.",
+      "Shake vigorously 30 seconds — casein is thicker than whey.",
+      "Add ice if you prefer thick milkshake texture.",
+      "Drink alongside 10 walnuts.",
+      "Tip: mix with less liquid for a pudding consistency.",
+    ],
+  },
+  {
+    name: "Overnight Oats (Optional)", tag: "Optional — Fairlife shake is the current default",
+    emoji: "🥣", time: "5 min prep + overnight", servings: "5 servings", color: "#4A8FD4",
+    macros: { cals: 380, protein: 18, carbs: 52, fat: 8 },
+    ingredients: [
+      "2.5 cups rolled oats (Costco)",
+      "2.5 cups Fairlife 2% filtered milk",
+      "5 scoops vanilla or unflavored protein powder (optional)",
+      "1 cup raspberries (fresh or frozen)",
+      "2 tbsp chia seeds",
+      "Honey or maple syrup to taste (optional)",
+    ],
+    steps: [
+      "Add ½ cup oats to each of 5 Mason jars.",
+      "Pour ½ cup Fairlife 2% over oats.",
+      "Add 1 scoop protein powder if using — stir well.",
+      "Add raspberries and chia seeds on top.",
+      "Seal and refrigerate overnight (up to 5 days).",
+      "Grab and go — eat cold or microwave 60–90 sec.",
+    ],
+  },
+];
+
+// ─── PORTIONS DATA ────────────────────────────────────────────────────────────
+const PORTIONS = [
+  {
+    category: "Proteins", emoji: "🥩", color: "#E04A6A",
+    items: [
+      { food: "Chicken thighs (cooked)", amount: "8 oz (226g)", visual: "Slightly larger than your palm", measure: "Food scale recommended", cals: 310, protein: 42, carbs: 0, fat: 12 },
+      { food: "Ground beef 93% lean (cooked)", amount: "8 oz (226g)", visual: "Baseball-sized portion", measure: "Food scale recommended", cals: 320, protein: 44, carbs: 0, fat: 14 },
+      { food: "Salmon / Mahi Mahi / Tilapia", amount: "8 oz (226g)", visual: "Size of your hand, 1\" thick", measure: "Food scale recommended", cals: 280, protein: 48, carbs: 0, fat: 10 },
+      { food: "Whole eggs", amount: "2 eggs", visual: "2 large eggs", measure: "Count — easy", cals: 140, protein: 12, carbs: 1, fat: 10 },
+      { food: "Egg whites", amount: "5 whites (¾ cup liquid)", visual: "¾ cup measuring cup", measure: "Use measuring cup", cals: 85, protein: 18, carbs: 1, fat: 0 },
+      { food: "Greek yogurt (2%)", amount: "1 container (5.3 oz)", visual: "Single serve container", measure: "Use the whole container", cals: 100, protein: 17, carbs: 7, fat: 3 },
+      { food: "Chocolate Nurri Shake", amount: "1 bottle", visual: "The whole bottle", measure: "Ready to drink", cals: 160, protein: 30, carbs: 9, fat: 3 },
+      { food: "Fairlife Protein Shake", amount: "1 bottle", visual: "The whole bottle", measure: "Ready to drink", cals: 230, protein: 42, carbs: 25, fat: 5 },
+      { food: "Casein protein powder", amount: "1 scoop (per label)", visual: "Included scoop in tub", measure: "Use the included scoop", cals: 120, protein: 25, carbs: 4, fat: 1 },
+      { food: "String cheese", amount: "1–2 sticks", visual: "1–2 individually wrapped sticks", measure: "Count — easy", cals: 80, protein: 7, carbs: 1, fat: 5 },
+      { food: "Beef jerky", amount: "1 oz (28g)", visual: "Small handful — 3–4 pieces", measure: "Food scale or label serving", cals: 80, protein: 10, carbs: 5, fat: 2 },
+    ],
+  },
+  {
+    category: "Carbs & Starches", emoji: "🍚", color: "#F0C040",
+    items: [
+      { food: "Jasmine rice (cooked)", amount: "1 cup (186g)", visual: "Rounded fist", measure: "Measuring cup", cals: 210, protein: 4, carbs: 45, fat: 0 },
+      { food: "Sweet potato (medium)", amount: "1 medium (~150g)", visual: "Size of your fist", measure: "Pick medium ones", cals: 130, protein: 2, carbs: 30, fat: 0 },
+      { food: "Banana", amount: "1 medium", visual: "Standard banana", measure: "Count — easy", cals: 105, protein: 1, carbs: 27, fat: 0 },
+      { food: "Raspberries", amount: "½ cup (62g)", visual: "Half a measuring cup", measure: "Measuring cup", cals: 32, protein: 1, carbs: 7, fat: 0 },
+      { food: "BodyArmor Fruit Punch", amount: "1 bottle (12 oz)", visual: "The whole bottle", measure: "Ready to drink + creatine", cals: 140, protein: 0, carbs: 28, fat: 0 },
+      { food: "Black beans (drained)", amount: "½ cup (130g)", visual: "Half measuring cup", measure: "Measuring cup", cals: 110, protein: 7, carbs: 20, fat: 0 },
+      { food: "Apple or orange", amount: "1 medium", visual: "Baseball-sized", measure: "Count — easy", cals: 80, protein: 0, carbs: 21, fat: 0 },
+    ],
+  },
+  {
+    category: "Fats — Measure These!", emoji: "🥑", color: "#4A8FD4",
+    warning: "⚠️ Most underestimated foods. A 'splash' of olive oil is often 3–4 tbsp (480 cal). Measure until you have a trained eye.",
+    items: [
+      { food: "Olive oil", amount: "1 tbsp (14g)", visual: "ONE tablespoon — smaller than you think", measure: "⚠️ ALWAYS MEASURE — 120 cal/tbsp", cals: 120, protein: 0, carbs: 0, fat: 14 },
+      { food: "Almonds", amount: "1 oz (~23 almonds)", visual: "Small handful", measure: "Count 23 or use food scale", cals: 160, protein: 6, carbs: 6, fat: 14 },
+      { food: "Walnuts", amount: "10 halves (30g)", visual: "10 walnut halves", measure: "⚠️ Count them", cals: 190, protein: 4, carbs: 4, fat: 18 },
+      { food: "Mixed nuts", amount: "1 oz (28g)", visual: "Small closed handful", measure: "⚠️ Food scale or pre-portioned packs", cals: 170, protein: 5, carbs: 6, fat: 15 },
+      { food: "Fairlife 2% milk", amount: "1 cup (240ml)", visual: "Standard measuring cup", measure: "Measuring cup", cals: 120, protein: 13, carbs: 6, fat: 4 },
+    ],
+  },
+  {
+    category: "Vegetables — Eat Freely", emoji: "🥦", color: "#3EC97A",
+    warning: "✅ Essentially free calories. Eat generous portions — they fill you up and cost almost nothing calorically.",
+    items: [
+      { food: "Tattooed Chef Sheet Pan Veggies", amount: "Per serving on bag", visual: "Follow bag directions", measure: "Check back of bag", cals: 130, protein: 5, carbs: 18, fat: 5 },
+      { food: "Asparagus", amount: "1 bunch (~150g)", visual: "Full bunch", measure: "Use the whole bunch", cals: 35, protein: 4, carbs: 6, fat: 0 },
+      { food: "Baby spinach", amount: "2 cups (60g)", visual: "Two large handfuls", measure: "Eat freely", cals: 14, protein: 2, carbs: 2, fat: 0 },
+      { food: "Broccoli", amount: "1 cup florets (90g)", visual: "Your closed fist", measure: "Fist-sized portion is fine", cals: 31, protein: 3, carbs: 6, fat: 0 },
+    ],
+  },
+];
+
+const HAND_GUIDE = [
+  { name: "Palm", amount: "3–4 oz protein", example: "Chicken, fish, beef", emoji: "🖐️", color: "#E04A6A" },
+  { name: "Fist", amount: "1 cup carbs/veg", example: "Rice, sweet potato", emoji: "✊", color: "#F0C040" },
+  { name: "Thumb", amount: "1 tbsp fat", example: "Olive oil, peanut butter", emoji: "👍", color: "#4A8FD4" },
+  { name: "Cupped hand", amount: "1 oz nuts", example: "Almonds, walnuts", emoji: "🤲", color: "#3EC97A" },
+];
+
+// ─── SLEEP DATA ───────────────────────────────────────────────────────────────
+const SLEEP_PROTOCOL = [
+  { time: "2:00 PM", rule: "Last Caffeine Cut-Off", detail: "Caffeine has a 5–6 hr half-life. Pre-workout after 2pm sabotages your sleep and therefore your fat loss and muscle growth.", icon: "☕", color: "#F0C040" },
+  { time: "Ongoing", rule: "Magnesium Glycinate (400mg)", detail: "Magnesium deficiency directly causes poor sleep. Take 30 min before bed — calms the nervous system naturally without dependency.", icon: "💊", color: "#3EC97A" },
+  { time: "Ongoing", rule: "Ashwagandha KSM-66 (600mg)", detail: "Clinically proven to lower cortisol by 27% and improve sleep quality. Double benefit: less belly fat AND better sleep.", icon: "🌿", color: "#3EC97A" },
+  { time: "7:00 PM", rule: "Kill Blue Light", detail: "Screens suppress melatonin by up to 50%. Use Night Shift mode, blue-light glasses, or stop screens 1 hr before bed.", icon: "📵", color: "#4A8FD4" },
+  { time: "7:30 PM", rule: "Drop Room Temperature", detail: "Set your room to 65–68°F. Core temp must fall to initiate sleep. One of the highest-impact zero-cost interventions available.", icon: "❄️", color: "#4A8FD4" },
+  { time: "8:00 PM", rule: "Wind-Down Routine", detail: "Same routine nightly = sleep trigger. Try: dim lights → stretch 10 min → read a book → lights out. Repeat until automatic.", icon: "📖", color: "#F0C040" },
+  { time: "8:00 PM", rule: "Casein Shake + Walnuts", detail: "Casein digests over 5–7 hours, feeding muscles overnight. Walnuts are a natural melatonin source.", icon: "🌙", color: "#3EC97A" },
+  { time: "Same daily", rule: "Lock Your Wake Time — 6:00 AM", detail: "Waking at the same time every day — even weekends — is the #1 evidence-backed sleep intervention. It anchors your circadian rhythm.", icon: "⏰", color: "#E04A6A" },
+];
+
+const SLEEP_WHY = [
+  { label: "Growth Hormone", desc: "80% of daily GH releases during deep sleep. GH burns fat and builds muscle. Poor sleep = almost no GH = no progress." },
+  { label: "Cortisol & Belly Fat", desc: "Poor sleep raises cortisol, which signals the body to store fat abdominally. You can't out-train a cortisol spike from bad sleep." },
+  { label: "Hunger Hormones", desc: "One bad night raises ghrelin (hunger) by 24%. You'll eat 300–500 extra calories the next day without realizing it." },
+  { label: "Muscle Protein Synthesis", desc: "MPS — building muscle from workouts — peaks during sleep. You train to create the signal. You sleep to execute it." },
+];
+
+// ─── BELLY FAT DATA ───────────────────────────────────────────────────────────
+const BELLY_FAT = [
+  { icon: "😴", tip: "Sleep 7–9 hours", detail: "Poor sleep raises ghrelin +24% and cortisol. Cortisol directly parks fat on your belly. You cannot out-train bad sleep." },
+  { icon: "🧠", tip: "Manage cortisol / stress", detail: "Chronic stress = chronically elevated cortisol = belly fat that won't move. Ashwagandha + sleep + training are your three cortisol killers." },
+  { icon: "🏃", tip: "Fasted treadmill LISS", detail: "Saturday fasted incline walk targets belly fat specifically. Low-intensity cardio taps into fat stores when glycogen is depleted overnight." },
+  { icon: "💧", tip: "1 gallon water daily", detail: "Belly bloat is often water retention. More water flushes sodium and reduces bloat. Also crushes false hunger signals." },
+  { icon: "🍽️", tip: "No refined sugar or seed oils", detail: "Fructose converts directly to visceral belly fat in the liver. Fruit is fine — packaged sugar is not." },
+  { icon: "⏰", tip: "Consider 16:8 fasting", detail: "Eating window of 12pm–8pm gives your insulin 16 hours to drop. Low insulin = fat-burning mode. Optional but powerful." },
+];
+
+const PHASE_CALC = [
+  { label: "Your Maintenance", value: "~2,950 kcal", color: "#4A4A6A" },
+  { label: "Program Target", value: "2,400 kcal", color: "#4A8FD4" },
+  { label: "Daily Deficit", value: "~550 kcal", color: "#F0C040" },
+  { label: "Weekly Fat Loss", value: "~1 lb", color: "#3EC97A" },
+  { label: "12-Week Fat Loss", value: "~12 lbs", color: "#E04A6A" },
+  { label: "Est. Final Weight", value: "~172–176 lbs", color: "#F0C040" },
+];
+
+const RESULTS_12WK = [
+  { label: "Body Fat", val: "16–17% → 10–11%", color: "#3EC97A" },
+  { label: "Scale Weight", val: "182 → ~172–176 lbs", color: "#4A8FD4" },
+  { label: "Visible Abs", val: "Week 8–10", color: "#F0C040" },
+  { label: "Waist", val: "−2 to −3 inches", color: "#E04A6A" },
+  { label: "Chest / Shoulders", val: "Wider, fuller, harder", color: "#F0C040" },
+  { label: "Strength", val: "+15–25% on major lifts", color: "#3EC97A" },
+];
+
+// ─── TRAVEL DATA ──────────────────────────────────────────────────────────────
+const TRAVEL_FOOD = [
+  {
+    meal: "Breakfast", icon: "🍳",
+    options: [
+      { place: "Hotel Buffet", order: "Scrambled eggs (large portion) + turkey bacon + fresh fruit. Skip pastries, waffles, and juice." },
+      { place: "Starbucks / Dunkin'", order: "Egg white bites or protein box. Pair with water or unsweetened drink. ~30g protein." },
+      { place: "CVS / Walgreens", order: "Hard-boiled eggs, Greek yogurt, banana, protein bar. Best hotel breakfast with no kitchen." },
+    ]
+  },
+  {
+    meal: "Lunch", icon: "🥗",
+    options: [
+      { place: "Chipotle", order: "Burrito bowl: double chicken, black beans, fajita veggies, salsa, guac. No rice, no cheese, no sour cream. ~55g protein." },
+      { place: "Subway", order: "12\" Rotisserie Chicken on 9-grain wheat. Spinach, tomato, cucumber, mustard. No mayo, no cheese. ~45g protein." },
+      { place: "Any sit-down", order: "Grilled protein + vegetables + side salad. Ask for sauce on the side." },
+    ]
+  },
+  {
+    meal: "Dinner", icon: "🍽️",
+    options: [
+      { place: "Steakhouse / Grill", order: "Sirloin or salmon + steamed veg + sweet potato. Skip the bread basket." },
+      { place: "DoorDash / Uber Eats", order: "Grilled chicken bowls, salmon bowls, or poke bowls. 40g+ protein. Avoid fried." },
+      { place: "Japanese / Sushi", order: "Sashimi (salmon, tuna, yellowtail) + miso soup + edamame. One of the best options." },
+    ]
+  },
+  {
+    meal: "Snacks", icon: "🎒",
+    options: [
+      { place: "Pack from home", order: "Nurri shakes (5–6), RXBAR/Quest bars, almond packs, magnesium, shaker, BodyArmor (5–6), pre-portioned creatine bags." },
+      { place: "CVS / Walgreens", order: "Greek yogurt, string cheese, hard-boiled eggs, protein bars, individual nut packs." },
+      { place: "Vending machine", order: "Mixed nuts if available. Otherwise protein bar or beef jerky. Avoid chips and candy." },
+    ]
+  },
+];
+
+const TRAVEL_NON_NEG = [
+  { icon: "🥩", rule: "Hit 200g protein daily", detail: "Order double protein at every meal, bring your Nurri shake, pack bars as backup. Non-negotiable." },
+  { icon: "💧", rule: "1 gallon of water", detail: "Travel dehydrates you. Carry a refillable bottle. Dehydration mimics hunger." },
+  { icon: "🏃", rule: "Move every single day", detail: "Even if the full workout doesn't happen — 20 min treadmill walk counts. Keeps metabolism active." },
+  { icon: "😴", rule: "Sleep protocol stays intact", detail: "Pack your magnesium glycinate. Request a cool room (65–68°F). Eye mask if needed." },
+  { icon: "🚫", rule: "Skip the hotel minibar", detail: "The minibar is full of refined sugar and seed oils. It's expensive sabotage of your calorie deficit." },
+  { icon: "📦", rule: "Pack this before you leave", detail: "Nurri shakes, RXBAR/Quest bars, almond packs, magnesium, shaker, BodyArmor bottles, creatine in daily bags." },
+];
+
+// ─── RECIPE STATE ─────────────────────────────────────────────────────────────
+state.recipeIdx = state.recipeIdx || 0;
+state.travelFoodStore = state.travelFoodStore || 0;
+
+// ─── RENDER RECIPES ───────────────────────────────────────────────────────────
+function renderRecipes() {
+  const r = RECIPES[state.recipeIdx || 0];
+  const tabs = RECIPES.map((rec, i) => `
+    <button onclick="selectRecipe(${i})" style="
+      padding:8px 10px;font-family:'DM Mono',monospace;font-size:9px;font-weight:500;
+      cursor:pointer;border:none;white-space:nowrap;
+      background:${state.recipeIdx === i ? r.color : "var(--dim)"};
+      color:${state.recipeIdx === i ? "var(--bg)" : "var(--muted)"};
+      transition:all 0.15s">
+      ${rec.emoji} ${rec.name.split(" ").slice(0,2).join(" ")}
+    </button>`).join("");
+
+  const macroHtml = [["Cal",r.macros.cals,"#E04A6A"],["Pro",r.macros.protein+"g","#4A8FD4"],["Carb",r.macros.carbs+"g","#F0C040"],["Fat",r.macros.fat+"g","#3EC97A"]].map(([label,val,col]) => `
+    <div style="flex:1;background:var(--bg);border:1px solid var(--border);padding:10px;text-align:center;border-top:2px solid ${col}">
+      <div style="font-family:'Bebas Neue',cursive;font-size:22px;color:${col};line-height:1">${val}</div>
+      <div style="font-family:'DM Mono',monospace;font-size:8px;color:var(--muted);margin-top:2px">${label}<br>per serving</div>
+    </div>`).join("");
+
+  const ingredients = r.ingredients.map(ing => `
+    <div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:8px">
+      <span style="color:${r.color};font-size:7px;margin-top:4px;flex-shrink:0">◆</span>
+      <span style="font-size:12px;line-height:1.5">${ing}</span>
+    </div>`).join("");
+
+  const steps = r.steps.map((step, i) => `
+    <div style="display:flex;gap:10px;align-items:flex-start;margin-bottom:10px;padding-bottom:10px;border-bottom:${i < r.steps.length-1 ? "1px solid var(--border)" : "none"}">
+      <div style="width:22px;height:22px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:${r.color};color:var(--bg);font-family:'DM Mono',monospace;font-size:10px;font-weight:500">${i+1}</div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.6">${step}</div>
+    </div>`).join("");
+
+  return `
+    <div style="background:var(--card);border:1px solid var(--border);border-left:4px solid var(--green);padding:12px 14px;margin-bottom:12px;font-size:12px;color:var(--muted);line-height:1.6">
+      👨‍🍳 All recipes are designed to be batch cooked together on <strong style="color:var(--text)">Sunday in 2–3 hours</strong>. Cook once, eat perfectly all week.
+    </div>
+    <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:14px;overflow-x:auto">${tabs}</div>
+    <div style="background:var(--card);border:1px solid var(--border);border-top:3px solid ${r.color};padding:14px;margin-bottom:10px">
+      <div style="font-family:'Bebas Neue',cursive;font-size:22px;letter-spacing:1px;margin-bottom:2px">${r.emoji} ${r.name}</div>
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:${r.color};margin-bottom:12px">${r.tag}</div>
+      <div style="display:flex;gap:8px;margin-bottom:12px">
+        <div style="background:var(--bg);border:1px solid var(--border);padding:6px 10px;font-family:'DM Mono',monospace;font-size:10px;color:${r.color}">⏱ ${r.time}</div>
+        <div style="background:var(--bg);border:1px solid var(--border);padding:6px 10px;font-family:'DM Mono',monospace;font-size:10px;color:${r.color}">🍽️ ${r.servings}</div>
+      </div>
+      <div style="display:flex;gap:6px">${macroHtml}</div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <div style="flex:1;min-width:140px;background:var(--card);border:1px solid var(--border);padding:14px">
+        <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;color:${r.color};margin-bottom:12px">INGREDIENTS</div>
+        ${ingredients}
+      </div>
+      <div style="flex:1;min-width:160px;background:var(--card);border:1px solid var(--border);padding:14px">
+        <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;color:${r.color};margin-bottom:12px">STEPS</div>
+        ${steps}
+      </div>
+    </div>
+  `;
+}
+
+function selectRecipe(i) {
+  state.recipeIdx = i;
+  renderContent();
+}
+
+// ─── RENDER PORTIONS ──────────────────────────────────────────────────────────
+function renderPortions() {
+  const handHtml = HAND_GUIDE.map(h => `
+    <div style="flex:1;min-width:100px;background:var(--card);border:1px solid var(--border);border-top:3px solid ${h.color};padding:12px;text-align:center">
+      <div style="font-size:28px;margin-bottom:6px">${h.emoji}</div>
+      <div style="font-weight:700;font-size:13px;color:${h.color};margin-bottom:3px">${h.name}</div>
+      <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text);margin-bottom:4px">${h.amount}</div>
+      <div style="font-size:11px;color:var(--muted);line-height:1.4">${h.example}</div>
+    </div>`).join("");
+
+  const categoriesHtml = PORTIONS.map(cat => {
+    const warningHtml = cat.warning ? `<div style="background:var(--bg);border:1px solid var(--border);border-left:3px solid ${cat.color};padding:10px;margin-bottom:10px;font-size:11px;color:var(--muted);line-height:1.5">${cat.warning}</div>` : "";
+    const headerHtml = `
+      <div style="display:flex;gap:4px;padding:5px 10px;background:var(--border);margin-bottom:2px">
+        ${[["Food","flex:2"],["Amount","flex:1"],["Cal","width:36px"],["Pro","width:32px"]].map(([l,s]) => `
+          <div style="${s};font-family:'DM Mono',monospace;font-size:8px;color:var(--muted);letter-spacing:1px;text-align:${l==="Cal"||l==="Pro"?"center":"left"}">${l}</div>`).join("")}
+      </div>`;
+    const itemsHtml = cat.items.map(item => {
+      const isWarning = item.measure && item.measure.includes("⚠️");
+      return `<div style="background:var(--card);border:1px solid var(--border);border-left:2px solid ${isWarning ? "#E04A6A" : cat.color};padding:9px 10px;display:flex;gap:4px;align-items:flex-start;margin-bottom:2px">
+        <div style="flex:2;min-width:0">
+          <div style="font-size:12px;font-weight:600;line-height:1.3">${item.food}</div>
+          <div style="font-size:10px;color:${isWarning ? "#E04A6A" : "var(--muted)"};margin-top:2px;line-height:1.3">${item.measure}</div>
+        </div>
+        <div style="flex:1;font-family:'DM Mono',monospace;font-size:10px;color:${cat.color};font-weight:500;padding-top:2px">${item.amount}</div>
+        <div style="width:36px;text-align:center;flex-shrink:0">
+          <div style="font-size:13px;font-weight:700;color:#E04A6A">${item.cals}</div>
+          <div style="font-size:8px;color:var(--muted);font-family:'DM Mono',monospace">cal</div>
+        </div>
+        <div style="width:32px;text-align:center;flex-shrink:0">
+          <div style="font-size:13px;font-weight:700;color:#4A8FD4">${item.protein}g</div>
+          <div style="font-size:8px;color:var(--muted);font-family:'DM Mono',monospace">pro</div>
+        </div>
+      </div>`;
+    }).join("");
+    return `
+      <div style="margin-bottom:20px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+          <span style="font-size:16px">${cat.emoji}</span>
+          <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;color:${cat.color}">${cat.category.toUpperCase()}</div>
+        </div>
+        ${warningHtml}${headerHtml}${itemsHtml}
+      </div>`;
+  }).join("");
+
+  return `
+    <div style="background:var(--card);border:1px solid var(--border);border-left:4px solid var(--accent);padding:12px 14px;margin-bottom:14px;font-size:12px;color:var(--muted);line-height:1.6">
+      ⚖️ Use a food scale for the first 2–3 weeks. After that, use the <strong style="color:var(--text)">hand method below</strong> as your daily reference.
+    </div>
+    <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;color:var(--muted);margin-bottom:10px">— THE HAND METHOD</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px">${handHtml}</div>
+    <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;color:var(--muted);margin-bottom:10px">— FULL PORTION GUIDE</div>
+    ${categoriesHtml}
+  `;
+}
+
+// ─── RENDER SLEEP ─────────────────────────────────────────────────────────────
+function renderSleep() {
+  const protocolHtml = SLEEP_PROTOCOL.map(item => `
+    <div style="background:var(--card);border:1px solid var(--border);border-left:3px solid ${item.color};padding:14px;display:flex;gap:12px;align-items:flex-start;margin-bottom:6px">
+      <div style="text-align:center;min-width:44px">
+        <div style="font-size:20px;margin-bottom:3px">${item.icon}</div>
+        <div style="font-family:'DM Mono',monospace;font-size:8px;color:${item.color}">${item.time}</div>
+      </div>
+      <div>
+        <div style="font-weight:700;font-size:13px;color:${item.color};margin-bottom:4px">${item.rule}</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.6">${item.detail}</div>
+      </div>
+    </div>`).join("");
+
+  const whyHtml = SLEEP_WHY.map((item, i) => `
+    <div style="display:flex;gap:10px;padding-bottom:10px;margin-bottom:10px;border-bottom:${i < SLEEP_WHY.length-1 ? "1px solid var(--border)" : "none"}">
+      <span style="color:var(--accent);font-family:'DM Mono',monospace;font-size:10px;flex-shrink:0;margin-top:2px;font-weight:500">0${i+1}</span>
+      <div>
+        <div style="font-weight:700;font-size:13px;margin-bottom:3px">${item.label}</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.6">${item.desc}</div>
+      </div>
+    </div>`).join("");
+
+  return `
+    <div style="background:var(--card);border:1px solid var(--border);border-left:4px solid var(--green);padding:14px;margin-bottom:14px">
+      <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;color:var(--green);margin-bottom:8px">🌙 NO MEDS · NO MELATONIN · ALL NATURAL</div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.7">Follow this protocol consistently for 2 weeks and your sleep quality will transform — which directly accelerates belly fat loss and muscle growth.</div>
+    </div>
+    <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;color:var(--muted);margin-bottom:10px">— NIGHTLY PROTOCOL</div>
+    ${protocolHtml}
+    <div style="background:var(--card);border:1px solid var(--border);border-top:3px solid var(--accent);padding:14px;margin-top:14px">
+      <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;color:var(--accent);margin-bottom:12px">💤 WHY SLEEP = FAT LOSS + MUSCLE</div>
+      ${whyHtml}
+    </div>
+  `;
+}
+
+// ─── RENDER BELLY FAT ─────────────────────────────────────────────────────────
+function renderBellyFat() {
+  const tipsHtml = BELLY_FAT.map(item => `
+    <div style="background:var(--card);border:1px solid var(--border);border-left:3px solid var(--red);padding:14px;display:flex;gap:12px;margin-bottom:6px">
+      <span style="font-size:22px;flex-shrink:0">${item.icon}</span>
+      <div>
+        <div style="font-weight:700;font-size:13px;margin-bottom:4px">${item.tip}</div>
+        <div style="font-size:12px;color:var(--muted);line-height:1.6">${item.detail}</div>
+      </div>
+    </div>`).join("");
+
+  const calcHtml = PHASE_CALC.map(p => `
+    <div style="flex:1;min-width:80px;background:var(--card);border:1px solid var(--border);padding:12px 6px;text-align:center">
+      <div style="font-family:'Bebas Neue',cursive;font-size:18px;color:${p.color};line-height:1">${p.value}</div>
+      <div style="font-family:'DM Mono',monospace;font-size:8px;color:var(--muted);margin-top:4px;line-height:1.4">${p.label}</div>
+    </div>`).join("");
+
+  const resultsHtml = RESULTS_12WK.map((item, i) => `
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:${i < RESULTS_12WK.length-1 ? "1px solid var(--border)" : "none"}">
+      <span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted)">${item.label}</span>
+      <span style="font-family:'DM Mono',monospace;font-size:10px;font-weight:500;color:${item.color}">${item.val}</span>
+    </div>`).join("");
+
+  return `
+    <div style="background:var(--card);border:1px solid var(--border);border-left:4px solid var(--red);padding:14px;margin-bottom:14px">
+      <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;color:var(--red);margin-bottom:8px">🎯 YOUR SITUATION</div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.7">At 6'0" / 182 lbs you're likely at <strong style="color:var(--accent)">15–17% body fat</strong>. The superhero look kicks in at <strong style="color:var(--accent)">10–12%</strong>. You need to lose roughly <strong style="color:var(--green)">10–12 lbs of fat</strong> while gaining 5–8 lbs of lean muscle. Not drinking alcohol is a genuine advantage — one of the primary belly fat drivers already eliminated.</div>
+    </div>
+    <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;color:var(--muted);margin-bottom:10px">— BELLY FAT ELIMINATION PROTOCOL</div>
+    ${tipsHtml}
+    <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;color:var(--muted);margin:16px 0 10px">— THE CALORIE MATH</div>
+    <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:16px">${calcHtml}</div>
+    <div style="background:var(--card);border:1px solid var(--border);border-top:3px solid var(--accent);padding:14px">
+      <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;color:var(--accent);margin-bottom:12px">🦸 EXPECTED 12-WEEK RESULTS</div>
+      ${resultsHtml}
+    </div>
+  `;
+}
+
+// ─── RENDER TRAVEL ────────────────────────────────────────────────────────────
+function renderTravel() {
+  const dd = getDayData(state.selectedDay);
+  const travelDayIdx = dd.travelDayIdx || 0;
+  const tw = TRAVEL_WORKOUTS[travelDayIdx];
+  const exKey = "travelExercisesDone";
+  const exDone = (dd[exKey] || []).length;
+  const exTotal = tw.exercises.length;
+  const woPct = exTotal > 0 ? pct(exDone, exTotal) : 0;
+
+  const dayPickerHtml = TRAVEL_WORKOUTS.map((w, i) => `
+    <button onclick="setTravelDay(${i})" style="
+      flex:1;padding:8px 4px;font-family:'DM Mono',monospace;font-size:9px;font-weight:500;
+      cursor:pointer;border:none;transition:all 0.15s;
+      background:${travelDayIdx === i ? "#4A8FD4" : "var(--dim)"};
+      color:${travelDayIdx === i ? "var(--bg)" : "var(--muted)"}">
+      D${i+1}
+    </button>`).join("");
+
+  const exHtml = tw.exercises.map((ex, i) => {
+    const done = (dd[exKey] || []).includes(i);
+    return `<div style="background:var(--card);border:1px solid var(--border);border-left:2px solid ${done ? "#4A8FD4" : "var(--dim)"};margin-bottom:2px">
+      <div onclick="toggleExercise(${i})" style="padding:11px 14px;display:flex;align-items:flex-start;gap:10px;cursor:pointer">
+        <div style="width:22px;height:22px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:10px;font-weight:500;background:${done ? "#4A8FD4" : "var(--dim)"};color:${done ? "var(--bg)" : "var(--muted)"}">
+          ${done ? "✓" : String(i+1).padStart(2,"0")}
+        </div>
+        <div>
+          <div style="font-size:13px;font-weight:${done ? 400 : 600};text-decoration:${done ? "line-through" : "none"};color:${done ? "var(--muted)" : "var(--text)"}">${ex.name} ${ex.sets}</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px">${ex.note}</div>
+          <div style="font-size:11px;color:var(--dim);margin-top:4px;line-height:1.5">${ex.instructions}</div>
+        </div>
+      </div>
+    </div>`;
+  }).join("");
+
+  const foodHtml = TRAVEL_FOOD.map((meal, i) => {
+    const colors = ["#F0C040","#3EC97A","#4A8FD4","#E04A6A"];
+    const col = colors[i];
+    const optsHtml = meal.options.map(opt => `
+      <div style="background:var(--bg);border:1px solid var(--border);padding:9px 12px;display:flex;gap:10px;flex-wrap:wrap;margin-bottom:3px">
+        <div style="font-family:'DM Mono',monospace;font-size:10px;color:${col};font-weight:500;min-width:100px;flex-shrink:0">${opt.place}</div>
+        <div style="font-size:11px;color:var(--muted);line-height:1.5;flex:1">${opt.order}</div>
+      </div>`).join("");
+    return `<div style="background:var(--card);border:1px solid var(--border);border-left:3px solid ${col};padding:14px;margin-bottom:8px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+        <span style="font-size:18px">${meal.icon}</span>
+        <div style="font-weight:700;font-size:14px">${meal.meal}</div>
+      </div>
+      ${optsHtml}
+    </div>`;
+  }).join("");
+
+  const nonNegHtml = TRAVEL_NON_NEG.map(item => `
+    <div style="background:var(--card);border:1px solid var(--border);border-left:3px solid var(--blue);padding:12px;display:flex;gap:10px;margin-bottom:4px">
+      <span style="font-size:18px;flex-shrink:0">${item.icon}</span>
+      <div>
+        <div style="font-weight:700;font-size:13px;margin-bottom:3px">${item.rule}</div>
+        <div style="font-size:11px;color:var(--muted);line-height:1.5">${item.detail}</div>
+      </div>
+    </div>`).join("");
+
+  return `
+    <div style="background:var(--card);border:1px solid var(--border);border-left:4px solid var(--blue);padding:14px;margin-bottom:14px">
+      <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;color:var(--blue);margin-bottom:8px">✈️ ROCKVILLE, MD · 5-DAY PROTOCOL</div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.7">One trip/month = <strong style="color:var(--accent)">88% consistency</strong>. Goal on travel weeks: <strong style="color:var(--green)">maintenance, not progress</strong>. Protect muscle, keep metabolism moving, come home ready.</div>
+    </div>
+
+    <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;color:var(--muted);margin-bottom:8px">— HOTEL WORKOUT (DBs + TREADMILL ONLY)</div>
+    <div style="display:flex;gap:4px;margin-bottom:10px">${dayPickerHtml}</div>
+    <div style="background:var(--card);border:1px solid var(--border);border-top:3px solid #4A8FD4;padding:12px;margin-bottom:8px">
+      <div style="font-family:'Bebas Neue',cursive;font-size:18px;margin-bottom:4px">${tw.label}</div>
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:#4A8FD4;margin-bottom:6px">${tw.duration} · ${woPct}% complete</div>
+      ${bar(woPct, "#4A8FD4", false)}
+    </div>
+    <button onclick="markAllDone()" style="width:100%;padding:12px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;font-weight:500;cursor:pointer;border:none;margin-bottom:10px;background:${dd.workoutDone ? "var(--green)" : "var(--dim)"};color:${dd.workoutDone ? "var(--bg)" : "var(--text)"}">
+      ${dd.workoutDone ? "✓ MARKED COMPLETE" : "MARK WORKOUT DONE"}
+    </button>
+    <div style="margin-bottom:16px">${exHtml}</div>
+
+    <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;color:var(--muted);margin-bottom:10px">— NO-KITCHEN NUTRITION</div>
+    ${foodHtml}
+
+    <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;color:var(--muted);margin:14px 0 8px">— NON-NEGOTIABLES</div>
+    ${nonNegHtml}
+
+    <div style="background:var(--card);border:1px solid var(--border);border-top:3px solid var(--green);padding:14px;margin-top:14px">
+      <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;color:var(--green);margin-bottom:10px">🏠 THE WEEK YOU GET BACK</div>
+      ${[["Day 1 back","85% effort. Feel it out, reconnect with the barbell."],["Day 2 back","Full intensity returns. Push it."],["Day 3 back","Fully back. Some people hit PRs after a deload week — don't be surprised."]].map(([d,n]) => `
+        <div style="display:flex;gap:10px;font-size:12px;margin-bottom:8px">
+          <span style="color:var(--green);font-family:'DM Mono',monospace;font-size:10px;flex-shrink:0;font-weight:500">${d}</span>
+          <span style="color:var(--muted)">${n}</span>
         </div>`).join("")}
     </div>
   `;
