@@ -220,6 +220,7 @@
   <button class="nav-btn" id="nav-workout" onclick="setScreen('workout')">💪</button>
   <button class="nav-btn" id="nav-nutrition" onclick="setScreen('nutrition')">🥗</button>
   <button class="nav-btn" id="nav-supplements" onclick="setScreen('supplements')">💊</button>
+  <button class="nav-btn" id="nav-shopping" onclick="setScreen('shopping')">🛒</button>
   <button class="nav-btn" id="nav-progress" onclick="setScreen('progress')">📈</button>
 </div>
 
@@ -275,19 +276,19 @@ const TRAVEL_WORKOUTS = [
 ];
 
 const MEALS = [
-  { time:"6:00 AM", name:"Pre-Workout Primer", protein:40, cals:620,
-    foods:["5 egg whites + 2 whole eggs scrambled","Overnight oats (1 cup oats + Fairlife 2% + raspberries)","12 oz BodyArmor Fruit Punch + 5g creatine"] },
-  { time:"8:00 AM", name:"Post-Workout Recovery", protein:48, cals:265,
-    foods:["Chocolate Nurri Protein Shake","1 banana"] },
+  { time:"6:00 AM", name:"Pre-Workout Primer", protein:44, cals:310,
+    foods:["Fairlife protein shake (Core Power or Nutrition Plan)","1 banana","12 oz BodyArmor Fruit Punch + 5g creatine"] },
+  { time:"8:00 AM", name:"Post-Workout Recovery", protein:70, cals:545,
+    foods:["Chocolate Nurri Protein Shake","5 egg whites + 2 whole eggs scrambled","1 banana"] },
   { time:"11:00 AM", name:"Mid-Morning Fuel", protein:20, cals:340,
     foods:["Full-fat Greek yogurt (2%) — 1 container","Handful almonds or walnuts (1 oz)","Apple or orange"] },
   { time:"1:30 PM", name:"Power Lunch", protein:55, cals:620,
     foods:["8 oz chicken thighs OR Ground Beef Power Bowl (rotate Mon/Wed/Fri chicken, Tue/Thu beef)","1 cup jasmine rice","Tattooed Chef Sheet Pan Veggies (per serving on bag)","1 tbsp olive oil drizzle"] },
   { time:"4:30 PM", name:"Afternoon Fuel", protein:25, cals:280,
     foods:["Beef jerky or string cheese (1–2 sticks)","Handful mixed nuts (1 oz)","Protein bar (RXBAR or Quest) if hungry"] },
-  { time:"7:00 PM", name:"Evening Lean", protein:50, cals:580,
+  { time:"6:00 PM", name:"Evening Lean", protein:50, cals:580,
     foods:["8 oz salmon, lean beef, mahi mahi, or tilapia","Medium sweet potato OR Tattooed Chef Sheet Pan Veggies","Asparagus or spinach sautéed in olive oil"] },
-  { time:"9:00 PM", name:"Night Recovery", protein:30, cals:280,
+  { time:"8:00 PM", name:"Night Recovery", protein:30, cals:280,
     foods:["Casein protein shake mixed with Fairlife 2%","10 raw walnuts"] },
 ];
 
@@ -296,8 +297,8 @@ const SUPPLEMENTS = [
   { name:"Vitamin D3 + K2 (5,000 IU)", time:"Morning", color:"#4A8FD4" },
   { name:"Omega-3 Fish Oil (2–3g)", time:"With meal", color:"#4A8FD4" },
   { name:"Ashwagandha KSM-66 (600mg)", time:"Morning/Night", color:"#3EC97A" },
-  { name:"Magnesium Glycinate (400mg)", time:"9:00 PM", color:"#9B6DFF" },
-  { name:"Zinc (30mg)", time:"9:00 PM", color:"#9B6DFF" },
+  { name:"Magnesium Glycinate (400mg)", time:"8:00 PM", color:"#9B6DFF" },
+  { name:"Zinc (30mg)", time:"8:00 PM", color:"#9B6DFF" },
 ];
 
 // ─── STATE ───────────────────────────────────────────────────────────────────
@@ -592,6 +593,7 @@ function renderContent() {
     case "workout":   el.innerHTML = renderWorkout(); break;
     case "nutrition": el.innerHTML = renderNutrition(); break;
     case "supplements": el.innerHTML = renderSupplements(); break;
+    case "shopping":  el.innerHTML = renderShopping(); break;
     case "progress":  el.innerHTML = renderProgress(); break;
   }
   attachWeightListeners();
@@ -932,6 +934,212 @@ function renderProgress() {
   `;
 }
 
+// ─── SHOPPING LIST DATA ───────────────────────────────────────────────────────
+const SHOPPING = [
+  {
+    store: "COSTCO", color: "#4A8FD4", emoji: "🏪",
+    categories: [
+      {
+        name: "Proteins", items: [
+          "Boneless Skinless Chicken Thighs (3–4 lb pack × 2)",
+          "93% Lean Ground Beef (3 lb pack)",
+          "Atlantic Salmon Fillets (frozen, individually wrapped)",
+          "Kirkland Whey Protein (5 lb tub)",
+          "Casein Protein Powder (large tub)",
+          "Liquid Egg Whites (large carton)",
+          "Whole Eggs (36-count)",
+          "Kirkland Beef Jerky (variety pack)",
+          "Fairlife Core Power / Nutrition Plan Shakes (multi-pack)",
+        ]
+      },
+      {
+        name: "Carbs & Pantry", items: [
+          "Jasmine Rice (25 lb bag)",
+          "Kikkoman Less Sodium Teriyaki Sauce",
+          "Tattooed Chef Sheet Pan Veggies (multi-pack — freezer section)",
+          "Black Beans (case of cans)",
+          "Extra Virgin Olive Oil (large bottle)",
+          "Raspberries (frozen, large bag)",
+        ]
+      },
+      {
+        name: "Snacks & Supplements", items: [
+          "RXBAR or Quest Bars (variety box)",
+          "Mixed Nuts (unsalted, large bag)",
+          "Raw Walnuts (large bag)",
+          "Kirkland Omega-3 Fish Oil (400 count softgels)",
+          "Vitamin D3 2000 IU softgels",
+          "Creatine Monohydrate (large tub)",
+        ]
+      },
+    ]
+  },
+  {
+    store: "WALMART", color: "#3EC97A", emoji: "🛒",
+    categories: [
+      {
+        name: "Proteins (Weekly Fresh)", items: [
+          "Chocolate Nurri Protein Shake (7 bottles)",
+          "Tilapia or Cod Fillets (fresh or frozen)",
+          "Deli Turkey Breast (sliced fresh)",
+          "String Cheese (12-pack)",
+          "2% Greek Yogurt (plain, individual containers)",
+        ]
+      },
+      {
+        name: "Produce (Fresh Weekly)", items: [
+          "Tattooed Chef Sheet Pan Veggies (3–4 bags — freezer section)",
+          "Bananas",
+          "Apples or Oranges (5–7)",
+          "Asparagus (1–2 bundles)",
+          "Baby Spinach (bag)",
+          "Sweet Potatoes (3–4 medium)",
+          "Lemons (pack of 4)",
+        ]
+      },
+      {
+        name: "Dairy & Refrigerated", items: [
+          "Fairlife 2% Filtered Milk",
+          "Salted Butter",
+          "BodyArmor Fruit Punch 12 oz (7 bottles)",
+        ]
+      },
+      {
+        name: "Pantry & Spices", items: [
+          "Taco Seasoning (packet or jar)",
+          "Sesame Oil (small bottle)",
+          "Garlic Powder",
+          "Ginger Powder",
+          "Salsa (fresh or jarred)",
+          "Chia Seeds",
+          "Honey or Maple Syrup (small)",
+        ]
+      },
+      {
+        name: "Supplements", items: [
+          "Magnesium Glycinate 400mg",
+          "Ashwagandha KSM-66 600mg",
+          "Zinc 30mg",
+        ]
+      },
+    ]
+  },
+];
+
+// ─── SHOPPING FUNCTIONS ───────────────────────────────────────────────────────
+function getShoppingKey(store, cat, item) {
+  return `shop-${store}-${cat}-${item}`.replace(/\s+/g, "-").toLowerCase();
+}
+
+function toggleShoppingItem(store, cat, item) {
+  const key = getShoppingKey(store, cat, item);
+  if (!state.shoppingChecked) state.shoppingChecked = {};
+  if (state.shoppingChecked[key]) {
+    delete state.shoppingChecked[key];
+  } else {
+    state.shoppingChecked[key] = true;
+  }
+  saveShoppingToStorage();
+  renderContent();
+}
+
+function clearShoppingList() {
+  if (confirm("Clear all checked items and start fresh?")) {
+    state.shoppingChecked = {};
+    saveShoppingToStorage();
+    renderContent();
+  }
+}
+
+function saveShoppingToStorage() {
+  try { localStorage.setItem("sbp-shopping", JSON.stringify(state.shoppingChecked || {})); } catch(e) {}
+}
+
+function loadShoppingFromStorage() {
+  try {
+    const s = localStorage.getItem("sbp-shopping");
+    if (s) state.shoppingChecked = JSON.parse(s);
+    else state.shoppingChecked = {};
+  } catch(e) { state.shoppingChecked = {}; }
+}
+
+function renderShopping() {
+  const checked = state.shoppingChecked || {};
+  const totalItems = SHOPPING.reduce((s, store) => s + store.categories.reduce((cs, cat) => cs + cat.items.length, 0), 0);
+  const checkedCount = Object.keys(checked).length;
+
+  const storeHtml = SHOPPING.map(store => {
+    const storeChecked = store.categories.reduce((s, cat) =>
+      s + cat.items.filter(item => checked[getShoppingKey(store.store, cat.name, item)]).length, 0);
+    const storeTotal = store.categories.reduce((s, cat) => s + cat.items.length, 0);
+
+    const catsHtml = store.categories.map(cat => {
+      const catItems = cat.items.map(item => {
+        const key = getShoppingKey(store.store, cat.name, item);
+        const done = !!checked[key];
+        return `<div onclick="toggleShoppingItem('${store.store}','${cat.name}','${item}')"
+          style="display:flex;align-items:center;gap:12px;padding:10px 0;
+                 border-bottom:1px solid var(--border);cursor:pointer;
+                 opacity:${done ? 0.5 : 1}">
+          <div style="width:20px;height:20px;flex-shrink:0;display:flex;align-items:center;
+                      justify-content:center;font-size:11px;
+                      background:${done ? store.color : "var(--dim)"};
+                      border:1px solid ${done ? store.color : "var(--border)"}">
+            ${done ? "✓" : ""}
+          </div>
+          <div style="font-size:13px;font-weight:${done ? 400 : 600};
+                      text-decoration:${done ? "line-through" : "none"};
+                      color:${done ? "var(--muted)" : "var(--text)"};
+                      line-height:1.4">${item}</div>
+        </div>`;
+      }).join("");
+
+      return `<div style="margin-bottom:16px">
+        <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;
+                    color:${store.color};margin-bottom:8px">— ${cat.name.toUpperCase()}</div>
+        ${catItems}
+      </div>`;
+    }).join("");
+
+    return `<div style="background:var(--card);border:1px solid var(--border);
+                        border-top:3px solid ${store.color};padding:14px;margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <div>
+          <div style="font-size:18px;font-family:'Bebas Neue',cursive;letter-spacing:1px;color:${store.color}">
+            ${store.emoji} ${store.store}
+          </div>
+          <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);margin-top:2px">
+            ${storeChecked}/${storeTotal} items checked
+          </div>
+        </div>
+        <div style="background:var(--bg);border:1px solid var(--border);padding:8px 12px;text-align:center">
+          <div style="font-family:'Bebas Neue',cursive;font-size:22px;color:${store.color};line-height:1">
+            ${Math.round((storeChecked/storeTotal)*100)}%
+          </div>
+        </div>
+      </div>
+      ${bar(Math.round((storeChecked/storeTotal)*100), store.color, false)}
+      <div style="margin-top:14px">${catsHtml}</div>
+    </div>`;
+  }).join("");
+
+  return `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;color:var(--muted)">SHOPPING LIST</div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--text);margin-top:2px">${checkedCount}/${totalItems} items checked</div>
+      </div>
+      <button onclick="clearShoppingList()"
+        style="background:var(--dim);border:1px solid var(--red);color:var(--red);
+               padding:8px 14px;font-family:'DM Mono',monospace;font-size:9px;
+               letter-spacing:2px;cursor:pointer;font-weight:500">
+        🗑 CLEAR LIST
+      </button>
+    </div>
+    ${storeHtml}
+  `;
+}
+
 // ─── WEIGHT INPUT LISTENERS ──────────────────────────────────────────────────
 function attachWeightListeners() {
   document.querySelectorAll(".weight-input").forEach(input => {
@@ -946,6 +1154,7 @@ function attachWeightListeners() {
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 loadFromStorage();
+loadShoppingFromStorage();
 renderEnergyBtns();
 renderAll();
 </script>
